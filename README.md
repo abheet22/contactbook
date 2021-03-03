@@ -15,8 +15,9 @@ Admin can create different contacts and can associate any number of contact numb
 ## Follow these steps to execute after cloning:
     ### Create Virtual Environment
     python3 -m venv .venv_contactbook
+    
     ### Activate virtualenv
-    source venv_contactbook/bin/activate
+    source .venv_contactbook/bin/activate
         
     ###Install dependencies
     pip install -r requirements.txt
