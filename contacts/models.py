@@ -22,5 +22,5 @@ class ContactNumber(BaseModel):
         )
         type = models.CharField(max_length=10, choices=PHONE_NUMBER_TYPE_CHOICES, default="other")
         contact = models.ForeignKey(Contacts, on_delete=models.CASCADE, related_name="contactdetail")
-        number = models.CharField(max_length=50)
+        number = models.CharField(max_length=15)
 

@@ -39,7 +39,7 @@ class ResourceView(View):
 
 
 class ResourceListCreateView(ResourceView):
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "put", "delete"]
     pagination_class = PageNumberPagination
     fields = ()
     max_page_size = API_PAGE_SIZE
@@ -105,6 +105,11 @@ class ResourceListCreateView(ResourceView):
         )
         return response
 
+    def put(self, request, *args, **kwargs):
+        raise api_exceptions.MethodNotAllowed(method=request.method)
+
+    def delete(self, request, *args, **kwargs):
+        raise api_exceptions.MethodNotAllowed(method=request.method)
 
 class ResourceUpdateDeleteView(ResourceView):
     http_method_names = ["put", "delete"]

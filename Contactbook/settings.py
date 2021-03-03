@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,11 +83,9 @@ DATABASES = {
     # }
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME":"contactbook",
-        "USER": "root",
-        "PASSWORD": "root@123",
-        "HOST": "",
-        "PORT": "",
+        "NAME":"contactbook", # env vars
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
     }
 }
 
@@ -133,7 +132,7 @@ STATIC_URL = '/static/'
 API_PAGE_SIZE = 10
 
 BASICAUTH_USERS = {
-    "username":"password"
+    os.environ.get('username'):os.environ.get('password')
 }
 
 REQUEST_SCHEME = "http"

@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
-urlpatterns = [
+api_v1_urlpatterns = [
     path('contactbook/', include("contacts.urls")),
 ]
+
+urlpatterns = [path('api/v1/', include(api_v1_urlpatterns))]
