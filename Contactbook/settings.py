@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')b%9x+4t1!gcsnonwj5*4hn*^46%)_xyht-9pe6ve_t5vuf)6q'
+SECRET_KEY = os.environ.get("secret_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -136,3 +136,8 @@ BASICAUTH_USERS = {
 }
 
 REQUEST_SCHEME = "http"
+
+try:
+    from .local_settings import *
+except Exception as err:
+    raise ValueError(str(err))

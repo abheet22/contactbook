@@ -163,6 +163,9 @@ class ResourceUpdateDeleteView(ResourceView):
                             errors_detail.append(errors)
                         else:
                             model_obj.clean_save(update_fields=update_fields)
+                    else:
+                        record.update({self.schema.nested_schema["referenced_field"]:id})
+                        self.schema.nested_schema["model"](**record).clean_save()
             except dj_core_exceptions.ValidationError as e:
                 errors_detail.append(e.message_dict)
             if errors:
