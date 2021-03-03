@@ -24,7 +24,7 @@ def call_endpoint_for_microservice(testclient, endpoint,req_data,username,passwo
         res = testclient.get(endpoint, req_data,**auth_headers)
     elif method == "delete":
         res = testclient.delete(
-            endpoint.format(**req_data), content_type="application/json",**auth_headers)
+            endpoint, content_type="application/json",**auth_headers)
     else:
         res = None
     if res and res.status_code in range(200, 299):

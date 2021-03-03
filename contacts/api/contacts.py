@@ -2,6 +2,7 @@ from common.views import ResourceListCreateView, ResourceUpdateDeleteView
 from contacts.api.schema import ContactsSchema
 from contacts.models import Contacts
 
+
 class GetContacts(ResourceListCreateView):
     schema_class = ContactsSchema
     model = Contacts
@@ -24,10 +25,12 @@ class CreateContacts(ResourceListCreateView):
     model = Contacts
     message = "Contact information successfully created"
 
+
 class UpdateContacts(ResourceUpdateDeleteView):
     schema_class = ContactsSchema
     model = Contacts
     message = "Contact information successfully updated"
+
 
 class DeleteContacts(ResourceUpdateDeleteView):
     schema_class = ContactsSchema

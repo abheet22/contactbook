@@ -5,11 +5,11 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 
-from contactbook.settings import API_PAGE_SIZE
 from common import api_exceptions
 from common.basic_auth import basic_auth_required
 from common.helpers import build_response
 from common.pagination import PageNumberPagination
+from contactbook.settings import API_PAGE_SIZE
 
 
 class ResourceView(View):
@@ -77,6 +77,7 @@ class ResourceListCreateView(ResourceView):
 
     def post(self, request, *args, **kwargs):
         nested_fields = []
+        nested_ids = []
         model_inst, errors = self.schema.load(self.req_data)
         if errors:
             raise api_exceptions.BadRequestData(errors=errors)
@@ -92,13 +93,17 @@ class ResourceListCreateView(ResourceView):
             try:
                 for record in nested_fields:
                     record.update({self.schema.nested_schema["referenced_field"]: str(related_object.id)})
-                    self.schema.nested_schema["model"](**record).clean_save()
+                    nested_obj = self.schema.nested_schema["model"](**record)
+                    nested_obj.clean_save()
+                    nested_ids.append(nested_obj.id)
             except dj_core_exceptions.ValidationError as e:
                 raise api_exceptions.BadRequestData(errors=e.message_dict)
+
         response = JsonResponse(
             {
                 "response": build_response(
-                    request, response_type="POST", response_text=self.message
+                    request, response_type="POST", response_text=self.message,
+                    response_data={"id": related_object.id, "nested_ids": nested_ids}
                 )
             },
             status=201,
@@ -110,6 +115,7 @@ class ResourceListCreateView(ResourceView):
 
     def delete(self, request, *args, **kwargs):
         raise api_exceptions.MethodNotAllowed(method=request.method)
+
 
 class ResourceUpdateDeleteView(ResourceView):
     http_method_names = ["put", "delete"]
@@ -164,7 +170,7 @@ class ResourceUpdateDeleteView(ResourceView):
                         else:
                             model_obj.clean_save(update_fields=update_fields)
                     else:
-                        record.update({self.schema.nested_schema["referenced_field"]:id})
+                        record.update({self.schema.nested_schema["referenced_field"]: id})
                         self.schema.nested_schema["model"](**record).clean_save()
             except dj_core_exceptions.ValidationError as e:
                 errors_detail.append(e.message_dict)
@@ -192,7 +198,7 @@ class ResourceUpdateDeleteView(ResourceView):
                 else:
                     raise api_exceptions.NotFound(errors="Unable to perform delete operation due to invalid id")
             else:
-                raise api_exceptions.NotFound(errors="Valid id not provided for delete operation")
+                raise api_exceptions.NotFound(errors="id is missing for performing delete operation")
         else:
             model_obj.delete()
         return JsonResponse(
