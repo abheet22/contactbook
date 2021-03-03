@@ -2,6 +2,10 @@ from common.views import ResourceListCreateView, ResourceUpdateDeleteView
 from contacts.api.schema import ContactsSchema
 from contacts.models import Contacts
 
+"""
+Every View class contains the corresponding API-Descriptor which helps to create apidoc
+"""
+
 
 class GetContacts(ResourceListCreateView):
     """
@@ -181,18 +185,125 @@ class GetContacts(ResourceListCreateView):
 
 
 class CreateContacts(ResourceListCreateView):
+    """
+    @apiDescription Create Contacts
+    This api is responsible for creating the contact records in the system.
+
+    @api {post} /api/v1/contactbook/create-contacts/ CREATE Contacts
+
+    @apiversion 1.0.0
+
+    @apiName CREATE Contacts
+    @apiGroup Contacts
+
+    @apiHeader {String} Authorization: Basic Creds
+    @apiHeader {String} Accept-Language Language to accept
+    @apiHeader {String} Content-Type application/json
+
+    @apiParam {String} name name of the user whose contact information is being created
+    @apiParam {String} email_address email of the user whose contact information is being created
+    @apiParam {String} [phone_details] nested json containing number information along with type for contact
+
+
+    @apiParamExample {json} Request-Example:
+    {
+
+	"name":"abheetg",
+	"email_address":"abheet8811.gupta@gmail.com",
+	"phone_details":[{"type":"mobile", "number":"9876543212"}, {"type":"home", "number":"9876543212"}]
+    }
+
+    @apiSuccessExample {json} Success-Response: With valid request data
+      HTTP/1.1 201 OK
+      {
+    "response": {
+        "message": "Contact information successfully created",
+        "payload": {
+            "id": "764f79c2-a530-4950-b958-5d5556b4e555",
+            "nested_ids": [
+                "afff921d-9720-4d78-a68a-21e81af31475",
+                "135b3df5-95f0-4a3d-921b-c611f71e7b05"
+            ]
+        },
+        "status_code": 201
+    }
+}
+
+    @apiError   BadRequest Bad Request Data / Malformed request. 400
+    @apiError   AuthenticationFailed Failed to Authenticate the user. 401
+    @apiError   NotFound Not found 404
+    @apiError   MethodNotAllowed method not allowed to access 405
+"""
+
     schema_class = ContactsSchema
     model = Contacts
     message = "Contact information successfully created"
 
 
 class UpdateContacts(ResourceUpdateDeleteView):
+    """
+    @apiDescription Update Contacts
+    This API could be used to update to update the contact information.
+
+    @api {put} /api/v1/contactbook/update-contacts/<contact_id>/ UPDATE Contacts
+
+    @apiversion 1.0.0
+    @apiName Update Contacts
+    @apiGroup Contacts
+
+    @apiHeader {String} Authorization: Basic Creds
+    @apiHeader {String} Accept-Language Language to accept
+    @apiHeader {String} Content-Type application/json
+
+
+    @apiParam {String} [name] name of the user whose contact information is being created
+    @apiParam {String} [email_address] email of the user whose contact information is being created
+    @apiParam {String} [phone_details] nested json containing number information along with type for contact
+
+    @apiParamExample {json} Request-Example:
+    {
+            "name":"ramesh1",
+            "phone_details":[
+                {"phone_id":"fbdbc3ce-1e1b-43d1-851e-dcdfa7ec34b7",
+                "type":"mobile", "number":"7876543212"},
+                {"type":"mobile", "number":"7876543212"}
+            ]
+        }
+
+            @apiSuccessExample {json} Success-Response:
+                 HTTP/1.1 202 OK
+       {
+    "response": {
+        "message": "Contact information successfully updated",
+        "payload": [],
+        "status_code": 202
+    }
+}
+    """
     schema_class = ContactsSchema
     model = Contacts
     message = "Contact information successfully updated"
 
 
 class DeleteContacts(ResourceUpdateDeleteView):
+    """
+     @apiDescription delete contacts
+    This API could be used to delete a contact from the system or a corresponding phone number entry for that contact
+
+    @api {delete} /api/v1/contactbook/delete-contacts/<contact_id>/?flag_delete_number=true&id=586915d7-0242-492c-8434-35b9a92e4eff DELETE Contacts
+
+    @apiversion 1.0.0
+    @apiName Delete Contacts
+    @apiGroup Contacts
+
+    @apiHeader {String} Authorization: Basic Creds
+    @apiHeader {String} Accept-Language Language to accept
+    @apiHeader {String} Content-Type application/json
+
+    @apiParam {String} [flag_delete_number] boolean to indicate that only a related phone number record is to be deleted for a contact. If True only phone number will be deleted else if not set the complete contact will be deleted.
+    @apiParam {String} [id] comma separated ids for deleting the corresponding contact. Required if flag is et to true
+
+    """
     schema_class = ContactsSchema
     model = Contacts
     lookup_field = "flag_delete_number"

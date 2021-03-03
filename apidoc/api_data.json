@@ -1,5 +1,174 @@
 [
   {
+    "description": "<p>Create Contacts This api is responsible for creating the contact records in the system.</p>",
+    "type": "post",
+    "url": "/api/v1/contactbook/create-contacts/",
+    "title": "CREATE Contacts",
+    "version": "1.0.0",
+    "name": "CREATE_Contacts",
+    "group": "Contacts",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization:",
+            "description": "<p>Basic Creds</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Accept-Language",
+            "description": "<p>Language to accept</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/json</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>name of the user whose contact information is being created</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email_address",
+            "description": "<p>email of the user whose contact information is being created</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "phone_details",
+            "description": "<p>nested json containing number information along with type for contact</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "    {\n\n\"name\":\"abheetg\",\n\"email_address\":\"abheet8811.gupta@gmail.com\",\n\"phone_details\":[{\"type\":\"mobile\", \"number\":\"9876543212\"}, {\"type\":\"home\", \"number\":\"9876543212\"}]\n    }",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response: With valid request data",
+          "content": "      HTTP/1.1 201 OK\n      {\n    \"response\": {\n        \"message\": \"Contact information successfully created\",\n        \"payload\": {\n            \"id\": \"764f79c2-a530-4950-b958-5d5556b4e555\",\n            \"nested_ids\": [\n                \"afff921d-9720-4d78-a68a-21e81af31475\",\n                \"135b3df5-95f0-4a3d-921b-c611f71e7b05\"\n            ]\n        },\n        \"status_code\": 201\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "BadRequest",
+            "description": "<p>Bad Request Data / Malformed request. 400</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "AuthenticationFailed",
+            "description": "<p>Failed to Authenticate the user. 401</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "NotFound",
+            "description": "<p>Not found 404</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "MethodNotAllowed",
+            "description": "<p>method not allowed to access 405</p>"
+          }
+        ]
+      }
+    },
+    "filename": "contacts/api/contacts.py",
+    "groupTitle": "Contacts"
+  },
+  {
+    "description": "<p>delete contacts This API could be used to delete a contact from the system or a corresponding phone number entry for that contact</p>",
+    "type": "delete",
+    "url": "/api/v1/contactbook/delete-contacts/<contact_id>/?flag_delete_number=true&id=586915d7-0242-492c-8434-35b9a92e4eff",
+    "title": "DELETE Contacts",
+    "version": "1.0.0",
+    "name": "Delete_Contacts",
+    "group": "Contacts",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization:",
+            "description": "<p>Basic Creds</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Accept-Language",
+            "description": "<p>Language to accept</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/json</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "flag_delete_number",
+            "description": "<p>boolean to indicate that only a related phone number record is to be deleted for a contact. If True only phone number will be deleted else if not set the complete contact will be deleted.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "id",
+            "description": "<p>comma separated ids for deleting the corresponding contact. Required if flag is et to true</p>"
+          }
+        ]
+      }
+    },
+    "filename": "contacts/api/contacts.py",
+    "groupTitle": "Contacts"
+  },
+  {
     "description": "<p>Get contacts details present in the system This API could be used to get contact details present in the system. If name or email_address filter is given, it outputs all the relevant records that matches those filters.</p>",
     "type": "get",
     "url": "/api/v1/contactbook/get-contacts/?name=ramesh1&page=1",
@@ -75,6 +244,87 @@
         {
           "title": "Error-Response: get device with invalid name or email_address",
           "content": "        HTTP/1.1 200 OK\n        {\n    \"response\": {\n        \"message\": \"Contact information successfully retrieved\",\n        \"payload\": [],\n        \"status_code\": 200\n    },\n    \"meta\": {\n        \"base\": \"http://127.0.0.1:8000\",\n        \"next\": null,\n        \"count\": 0\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "contacts/api/contacts.py",
+    "groupTitle": "Contacts"
+  },
+  {
+    "description": "<p>Update Contacts This API could be used to update to update the contact information.</p>",
+    "type": "put",
+    "url": "/api/v1/contactbook/update-contacts/<contact_id>/",
+    "title": "UPDATE Contacts",
+    "version": "1.0.0",
+    "name": "Update_Contacts",
+    "group": "Contacts",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization:",
+            "description": "<p>Basic Creds</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Accept-Language",
+            "description": "<p>Language to accept</p>"
+          },
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Content-Type",
+            "description": "<p>application/json</p>"
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "name",
+            "description": "<p>name of the user whose contact information is being created</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "email_address",
+            "description": "<p>email of the user whose contact information is being created</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "phone_details",
+            "description": "<p>nested json containing number information along with type for contact</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n        \"name\":\"ramesh1\",\n        \"phone_details\":[\n            {\"phone_id\":\"fbdbc3ce-1e1b-43d1-851e-dcdfa7ec34b7\",\n            \"type\":\"mobile\", \"number\":\"7876543212\"},\n            {\"type\":\"mobile\", \"number\":\"7876543212\"}\n        ]\n    }",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "                 HTTP/1.1 202 OK\n       {\n    \"response\": {\n        \"message\": \"Contact information successfully updated\",\n        \"payload\": [],\n        \"status_code\": 202\n    }\n}",
           "type": "json"
         }
       ]
