@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 
-from Contactbook.settings import API_PAGE_SIZE
+from contactbook.settings import API_PAGE_SIZE
 from common import api_exceptions
 from common.basic_auth import basic_auth_required
 from common.helpers import build_response
