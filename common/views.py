@@ -39,6 +39,13 @@ class ResourceView(View):
 
 
 class ResourceListCreateView(ResourceView):
+
+    """
+    Base class for all get and post api methods.
+    Need to provide necessary params in exposed api classes and all query related stuff will be
+    handled in this resource class
+    """
+
     http_method_names = ["get", "post", "put", "delete"]
     pagination_class = PageNumberPagination
     fields = ()
@@ -54,7 +61,6 @@ class ResourceListCreateView(ResourceView):
         return super(ResourceListCreateView, self).dispatch(request, **kwargs)
 
     def get(self, request, *args, **kwargs):
-
         queryset = getattr(self, "queryset", self.schema.model.objects.all())
         if getattr(self, "filters", None):
             lookup_dict = {
@@ -118,6 +124,11 @@ class ResourceListCreateView(ResourceView):
 
 
 class ResourceUpdateDeleteView(ResourceView):
+    """
+       Base class for all put and delete api methods.
+       Need to provide necessary params in exposed api classes and all query related stuff will be
+       handled in this resource class
+    """
     http_method_names = ["put", "delete"]
     lookup_field = None
 

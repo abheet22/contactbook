@@ -1,5 +1,11 @@
-from marshmallow import fields, ValidationError, pre_load, post_load, validate, post_dump, Schema, validates_schema
+from marshmallow import fields, validate, Schema
+
 from contacts.models import ContactNumber, Contacts
+
+"""
+Schema class are for the purpose of serialisation and de-serialisation of objects
+"""
+
 
 class TrimmedString(fields.String):
     def _deserialize(self, value, *args, **kwargs):
@@ -43,8 +49,8 @@ class ContactsSchema(Schema):
     update_ts = fields.DateTime(dump_only=True, format="%Y-%m-%d %H:%M:%S")
 
     nested_schema = {
-        "model":ContactNumber,
-        "related":"phone_details",
-        "referenced_field":"contact_id",
-        "pk":"phone_id"
+        "model": ContactNumber,
+        "related": "phone_details",
+        "referenced_field": "contact_id",
+        "pk": "phone_id"
     }
