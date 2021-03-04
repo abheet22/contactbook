@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("secret_key")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,12 +77,29 @@ WSGI_APPLICATION = 'contactbook.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+
+        'default': {
+
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "--name--",
-        'USER': "--user--",
-        'PASSWORD': "--password--"
+
+        'NAME': 'contactbook',
+
+        'USER': os.environ.get("DB_USERNAME"),
+
+        'PASSWORD': os.environ.get("DB_PASSWROD"),
+
+        'HOST': 'localhost',
+
+        'PORT': '',
+
+        'OPTIONS': {
+
+            'sslmode': 'disable'
+
+        }
+
     }
+
 }
 
 
@@ -128,7 +145,7 @@ STATIC_URL = '/static/'
 API_PAGE_SIZE = 10
 
 BASICAUTH_USERS = {
-    "--pick from env -- ":"-- pick from env --"
+    os.environ.get("BASIC_USERNAME"):os.environ.get("BASIC_PASSWORD")
 }
 
 REQUEST_SCHEME = "http"
@@ -136,4 +153,4 @@ REQUEST_SCHEME = "http"
 try:
     from .local_settings import *
 except Exception as err:
-    raise ValueError(str(err))
+    pass
