@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -84,9 +84,9 @@ DATABASES = {
 
         'NAME': 'contactbook',
 
-        'USER': os.environ.get("DB_USERNAME"),
+        'USER': os.getenv("DB_USERNAME"),
 
-        'PASSWORD': os.environ.get("DB_PASSWROD"),
+        'PASSWORD': os.getenv("DB_PASSWROD"),
 
         'HOST': 'localhost',
 
@@ -145,12 +145,12 @@ STATIC_URL = '/static/'
 API_PAGE_SIZE = 10
 
 BASICAUTH_USERS = {
-    os.environ.get("BASIC_USERNAME"):os.environ.get("BASIC_PASSWORD")
+    os.getenv("BASIC_USERNAME"):os.getenv("BASIC_PASSWORD")
 }
 
 REQUEST_SCHEME = "http"
 
-try:
-    from .local_settings import *
-except Exception as err:
-    pass
+# try:
+#     from .local_settings import *
+# except Exception as err:
+#     pass
