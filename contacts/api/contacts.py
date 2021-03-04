@@ -15,7 +15,6 @@ class GetContacts(ResourceListCreateView):
 
 
         @api {get}  /api/v1/contactbook/get-contacts/?name=ramesh1&page=1 GET Contact Details
-        @apiversion 1.0.0
         @apiName GET Contact Details
         @apiGroup Contacts
 
@@ -191,7 +190,6 @@ class CreateContacts(ResourceListCreateView):
 
     @api {post} /api/v1/contactbook/create-contacts/ CREATE Contacts
 
-    @apiversion 1.0.0
 
     @apiName CREATE Contacts
     @apiGroup Contacts
@@ -247,7 +245,6 @@ class UpdateContacts(ResourceUpdateDeleteView):
 
     @api {put} /api/v1/contactbook/update-contacts/<contact_id>/ UPDATE Contacts
 
-    @apiversion 1.0.0
     @apiName Update Contacts
     @apiGroup Contacts
 
@@ -292,7 +289,6 @@ class DeleteContacts(ResourceUpdateDeleteView):
 
     @api {delete} /api/v1/contactbook/delete-contacts/<contact_id>/?flag_delete_number=true&id=586915d7-0242-492c-8434-35b9a92e4eff DELETE Contacts
 
-    @apiversion 1.0.0
     @apiName Delete Contacts
     @apiGroup Contacts
 

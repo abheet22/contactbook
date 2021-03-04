@@ -4,7 +4,6 @@
     "type": "post",
     "url": "/api/v1/contactbook/create-contacts/",
     "title": "CREATE Contacts",
-    "version": "1.0.0",
     "name": "CREATE_Contacts",
     "group": "Contacts",
     "header": {
@@ -107,6 +106,7 @@
         ]
       }
     },
+    "version": "0.0.0",
     "filename": "contacts/api/contacts.py",
     "groupTitle": "Contacts"
   },
@@ -115,7 +115,6 @@
     "type": "delete",
     "url": "/api/v1/contactbook/delete-contacts/<contact_id>/?flag_delete_number=true&id=586915d7-0242-492c-8434-35b9a92e4eff",
     "title": "DELETE Contacts",
-    "version": "1.0.0",
     "name": "Delete_Contacts",
     "group": "Contacts",
     "header": {
@@ -165,6 +164,7 @@
         ]
       }
     },
+    "version": "0.0.0",
     "filename": "contacts/api/contacts.py",
     "groupTitle": "Contacts"
   },
@@ -173,7 +173,6 @@
     "type": "get",
     "url": "/api/v1/contactbook/get-contacts/?name=ramesh1&page=1",
     "title": "GET Contact Details",
-    "version": "1.0.0",
     "name": "GET_Contact_Details",
     "group": "Contacts",
     "header": {
@@ -248,6 +247,7 @@
         }
       ]
     },
+    "version": "0.0.0",
     "filename": "contacts/api/contacts.py",
     "groupTitle": "Contacts"
   },
@@ -256,7 +256,6 @@
     "type": "put",
     "url": "/api/v1/contactbook/update-contacts/<contact_id>/",
     "title": "UPDATE Contacts",
-    "version": "1.0.0",
     "name": "Update_Contacts",
     "group": "Contacts",
     "header": {
@@ -329,6 +328,7 @@
         }
       ]
     },
+    "version": "0.0.0",
     "filename": "contacts/api/contacts.py",
     "groupTitle": "Contacts"
   }
