@@ -98,7 +98,7 @@ DATABASES = {
 
         'USER': get_env_value("DB_USERNAME"),
 
-        'PASSWORD': get_env_value("DB_PASSWROD"),
+        'PASSWORD': get_env_value("DB_PASSWORD"),
 
         'HOST': 'localhost',
 
