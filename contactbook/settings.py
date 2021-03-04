@@ -13,6 +13,19 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+
+
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(env_variable)
+        raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_env_value("SECRET_KEYs")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +34,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -84,9 +96,9 @@ DATABASES = {
 
         'NAME': 'contactbook',
 
-        'USER': os.getenv("DB_USERNAME"),
+        'USER': get_env_value("DB_USERNAME"),
 
-        'PASSWORD': os.getenv("DB_PASSWROD"),
+        'PASSWORD': get_env_value("DB_PASSWROD"),
 
         'HOST': 'localhost',
 
@@ -145,7 +157,7 @@ STATIC_URL = '/static/'
 API_PAGE_SIZE = 10
 
 BASICAUTH_USERS = {
-    os.getenv("BASIC_USERNAME"):os.getenv("BASIC_PASSWORD")
+    get_env_value("BASIC_USERNAME"):get_env_value("BASIC_PASSWORD")
 }
 
 REQUEST_SCHEME = "http"
